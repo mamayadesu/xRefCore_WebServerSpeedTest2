@@ -1,0 +1,9 @@
+{
+    "php_version": "7.4",
+    "app_name": "WebServerSpeedTest",
+    "app_version": "1.0",
+    "app_author": "xRef",
+    "app_description": "",
+    "namespaces": [],
+    "framework_version": "1.16.10.0"
+}
