@@ -12,18 +12,18 @@ class Main
 
     public function __construct(array $args)
     {
-        Console::Write("Input the first URL: ");
+        Console::Write("Введите первый URL: ");
         $url1 = Console::ReadLine();
-        Console::Write("Input the second URL: ");
+        Console::Write("Введите второй URL: ");
         $url2 = Console::ReadLine();
-        Console::Write("Requests count (-1 for infinity): ");
+        Console::Write("Количество запросов: ");
         $max_requests = intval(Console::ReadLine());
         $this->HandleUrl("1", $url1, $max_requests);
         Console::WriteLine("\n\n");
 
         Application::Wait(5000);
         $this->HandleUrl("2", $url2, $max_requests);
-        Console::WriteLine("\nPress ENTER to close");
+        Console::WriteLine("\nНажмите ENTER, чтобы закрыть");
         Console::ReadLine();
     }
 
@@ -66,20 +66,20 @@ class Main
         $time_start = microtime(true);
 
         Console::WriteLine("URL #" . $num . ": " . $url);
-        Console::Write("Created: " . $this->created . ", in process: " . ($this->created - $this->finished) , ", success: " . $this->success . ", fails: " . $this->fails . " (" . $max_requests . ") " . round(microtime(true) - $time_start, 4));
+        Console::Write("Создано: " . $this->created . ", в процессе: " . ($this->created - $this->finished) , ", успешно: " . $this->success . ", ошибок: " . $this->fails . " (" . $max_requests . ") " . round(microtime(true) - $time_start, 4));
 
         for ($i = 1; $i <= $max_requests || $max_requests == -1; $i++)
         {
             $this->Request($url);
-            Console::ClearLine("Created: " . $this->created . ", in process: " . ($this->created - $this->finished) . ", success: " . $this->success . ", fails: " . $this->fails . " (" . $max_requests . ") " . round(microtime(true) - $time_start, 4));
+            Console::ClearLine("Создано: " . $this->created . ", в процессе: " . ($this->created - $this->finished) . ", успешно: " . $this->success . ", ошибок: " . $this->fails . " (" . $max_requests . ") " . round(microtime(true) - $time_start, 4));
         }
 
         do
         {
-            Console::ClearLine("Created: " . $this->created . ", in proccess: " . ($this->created - $this->finished) . ", success: " . $this->success . ", fails: " . $this->fails . " (" . $max_requests . ") " . round(microtime(true) - $time_start, 4));
+            Console::ClearLine("Создано: " . $this->created . ", в процессе: " . ($this->created - $this->finished) . ", успешно: " . $this->success . ", ошибок: " . $this->fails . " (" . $max_requests . ") " . round(microtime(true) - $time_start, 4));
             Application::Wait(1);
         }
         while ($this->finished < $max_requests);
-        Console::ClearLine("Created: " . $this->created . ", in process: " . ($this->created - $this->finished) . ", success: " . $this->success . ", fails: " . $this->fails . " (" . $max_requests . ") " . round(microtime(true) - $time_start, 4));
+        Console::ClearLine("Создано: " . $this->created . ", в процессе: " . ($this->created - $this->finished) . ", успешно: " . $this->success . ", ошибок: " . $this->fails . " (" . $max_requests . ") " . round(microtime(true) - $time_start, 4));
     }
 }

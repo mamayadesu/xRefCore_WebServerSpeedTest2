@@ -60,20 +60,20 @@ class AsyncCurl
         $this->task_params->mh = curl_multi_init();
         curl_multi_add_handle($this->task_params->mh, $this->task_params->ch);
 
-        // Next, we move the execution of our request into an asynchronous task and break it down into stages
+        // Далее переводим выполнение нашего запроса в асинхронную задачу и разбиваем на стадииz
         $this->task_params->_current_stage = 1;
         $this->task_params->active = null;
         $this->task = new AsyncTask($this, 1, false, function(AsyncTask $task, AsyncCurlParams $task_params) : void
         {
-            // Divide an asynchronous task into stages
-            // Stage 1
+            // Делим асинхронную задачу на стадии
+            // Стадия 1
             if ($task_params->_current_stage == 1)
             {
                 $task_params->mrc = curl_multi_exec($task_params->mh, $task_params->active);
                 if (!($task_params->mrc == CURLM_CALL_MULTI_PERFORM))
                     $task_params->_current_stage++;
             }
-            // Stage 2
+            // Стадия 2
             else if ($task_params->_current_stage == 2)
             {
                 if ($task_params->active && $task_params->mrc == CURLM_OK)
@@ -90,7 +90,7 @@ class AsyncCurl
                 else
                     $task_params->_current_stage++;
             }
-            // Final stage
+            // Завершающая стадия
             else
             {
                 curl_multi_remove_handle($task_params->mh, $task_params->ch);
@@ -98,9 +98,9 @@ class AsyncCurl
 
                 $html = curl_multi_getcontent($task_params->ch);
 
-                call_user_func($this->ExecutedCallback, $html, $task_params->ch); // Execute callback
+                call_user_func($this->ExecutedCallback, $html, $task_params->ch); // Запускаем наш callback
 
-                $task->Cancel(); // finish task
+                $task->Cancel(); // завершаем задачу
             }
         }, $this->task_params);
     }
