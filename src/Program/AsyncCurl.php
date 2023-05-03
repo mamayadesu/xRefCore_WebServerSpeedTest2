@@ -17,7 +17,7 @@ class AsyncCurl
      */
     public ?Closure $ExecutedCallback = null;
     private ?AsyncTask $task = null;
-    private AsyncCurlParams $task_params;
+    private ?AsyncCurlParams $task_params;
 
     public function __construct(?string $url = null)
     {
@@ -101,6 +101,7 @@ class AsyncCurl
                 call_user_func($this->ExecutedCallback, $html, $task_params->ch); // Execute callback
 
                 $task->Cancel(); // finish task
+                $this->task = null; // remove from memory
             }
         }, $this->task_params);
     }
